@@ -1,0 +1,41 @@
+class GetPermutation {
+    public String getPermutation(int n, int k) {
+        
+        //To store numbers from 1 to n
+        List<Integer> nums = new ArrayList<>();
+        nums.add(1);
+        
+        //To store the factorial of numbers from 0 to n-1
+        int[] fact = new int[n];
+        fact[0] = 1;
+        
+        for(int i=1; i<n; i++){
+            
+            fact[i] = fact[i-1] * i;
+            nums.add(i+1);
+        }
+        
+        //To fit k into 0 index
+        k--;
+        
+        //If n=3, then there will be grps of (n-1)! ie 2 where the hundreds place will be common in a single group. We store the grp no here
+        int index = 0;
+        
+        StringBuilder sb = new StringBuilder();
+        
+        for(int j = n-1; j >= 0; j--){
+            
+            //Finding k belongs to which group so that we could find the common number in the group which is our MSB
+            
+            index = k / fact[j];
+            
+            sb.append(nums.remove(index));
+            
+            //Finding the index inside the group
+            k = k % fact[j];
+        }
+        
+        return sb.toString();
+        
+    }
+}
